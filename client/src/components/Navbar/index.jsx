@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 import {
   AppBar,
@@ -9,29 +9,34 @@ import {
   Avatar,
   Button,
   Tooltip,
-} from "@mui/material";
+} from '@mui/material'
 
-import MenuIcon from "@mui/icons-material/Menu";
+import MenuIcon from '@mui/icons-material/Menu'
 
-import { stringAvatar } from "./helpers";
+import { useAuth } from 'hooks'
 
-import Brand from "./Brand";
-import { Menu, CollapseMenu } from "../../components";
+import { stringAvatar } from './helpers'
+
+import Brand from './Brand'
+import { Menu, CollapseMenu } from '../../components'
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [user] = useAuth()
+  const [anchorElNav, setAnchorElNav] = useState(null)
+  const [anchorElUser, setAnchorElUser] = useState(null)
 
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleOpenNavMenu = event => setAnchorElNav(event.currentTarget)
+  const handleOpenUserMenu = event => setAnchorElUser(event.currentTarget)
 
-  const optionsMainMenu = [
-    { label: "Home", to: "/" },
-    { label: "Customers", to: "/customers" },
-  ];
-  const optionsUserMenu = [
-    { label: "Login", to: "/login" },
-    { label: "Regiter", to: "/register" },
-  ];
+  const optionsMainMenu = /* user.admin ? */ [
+    { label: 'Customers', to: '/' },
+  ] /* : [] */
+
+  const optionsUserMenu = user.auth
+    ? [{ label: 'Logout', to: '/logout' }]
+    : [
+        { label: 'Login', to: '/login' },
+        { label: 'Register', to: '/register' },
+      ]
 
   return (
     <AppBar position="static" color="primary">
@@ -39,7 +44,7 @@ function Navbar() {
         <Toolbar disableGutters>
           <Brand />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               onClick={handleOpenNavMenu}
@@ -62,7 +67,13 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar {...stringAvatar("Juan Alberto")} />
+                <Avatar
+                  {...stringAvatar(
+                    !user.auth
+                      ? 'John Doe'
+                      : user.username.toUpperCase() + ' ' + 'V'
+                  )}
+                />
               </IconButton>
             </Tooltip>
             <CollapseMenu
@@ -74,6 +85,6 @@ function Navbar() {
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  )
 }
-export default Navbar;
+export default Navbar

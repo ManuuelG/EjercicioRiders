@@ -8,30 +8,30 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Slide from '@mui/material/Slide'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction="up" ref={ref} {...props} />
+  return <Slide direction="up" ref={ref} {...props} />
 })
 
-export default function Dialog({ open, onClose, onDelete }) {
-	return (
-		<DialogMUI
-			open={open}
-			TransitionComponent={Transition}
-			keepMounted
-			onClose={onClose}
-			aria-describedby="alert-dialog-slide-description"
-		>
-			<DialogTitle>DELETE</DialogTitle>
-			<DialogContent>
-				<DialogContentText id="alert-dialog-slide-description">
-					Are you sure?
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose}>Cancel</Button>
-				<Button onClick={onDelete} color="error">
-					DELETE
-				</Button>
-			</DialogActions>
-		</DialogMUI>
-	)
+export default function Dialog({ open, confirmText, onClose, onDelete }) {
+  return (
+    <DialogMUI
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={onClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>DELETE</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          {confirmText}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onDelete} color="error">
+          DELETE
+        </Button>
+      </DialogActions>
+    </DialogMUI>
+  )
 }

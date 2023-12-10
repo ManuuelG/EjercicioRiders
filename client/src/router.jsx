@@ -1,45 +1,58 @@
-import { createBrowserRouter } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider as RouterProviderRRD,
+} from 'react-router-dom'
 
-import RootLayout from "layouts/RootLayout";
-import ErrorPage from "pages/ErrorPage";
-import TemplatePage from "pages/TemplatePage";
+import RootLayout from 'layouts/RootLayout'
+import ErrorPage from 'pages/ErrorPage'
+import CustomersPage from './pages/CustomersPage'
+import AddCustomerPage from './pages/AddCustomerPage'
+import EditCustomerPage from './pages/EditCustomerPage'
+import LoginPage from './pages/LoginPage'
+import LogoutPage from './pages/LogoutPage'
+import RegisterPage from './pages/RegisterPage'
+import ProtectedRoute from './utils/ProtectedRoute'
+
+const WorkdaysPage = () => <h1>workdays</h1>
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
-        element: <TemplatePage />,
+        path: '/',
+        element: <ProtectedRoute page={WorkdaysPage} role="auth" />,
       },
       {
-        path: "/customers",
-        element: false,
+        path: '/customers',
+        element: <ProtectedRoute page={CustomersPage} role="admin" />,
       },
       {
-        path: "/customer/new",
-        element: false,
+        path: '/customer/new',
+        element: <ProtectedRoute page={AddCustomerPage} role="admin" />,
       },
       {
-        path: "/customer/edit/:customerId",
-        element: false,
+        path: '/customer/edit/:customerId',
+        element: <ProtectedRoute page={EditCustomerPage} role="admin" />,
       },
       {
-        path: "/login",
-        element: false,
+        path: '/login',
+        element: <ProtectedRoute page={LoginPage} role="anonymous" />,
       },
       {
-        path: "/register",
-        element: false,
+        path: '/register',
+        element: <ProtectedRoute page={RegisterPage} role="anonymous" />,
       },
       {
-        path: "/logout",
-        element: false,
+        path: '/logout',
+        element: <ProtectedRoute page={LogoutPage} role="auth" />,
       },
     ],
   },
-]);
+])
 
-export default router;
+const RouterProvider = ({ children }) => <RouterProviderRRD router={router} />
+
+export default RouterProvider

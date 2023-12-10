@@ -1,22 +1,15 @@
-import ReactDOM from "react-dom/client";
+import ReactDOM from 'react-dom/client'
 
-import { RouterProvider } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
-import { ThemeProvider as MUIThemeProvider } from "@mui/material/styles";
+import './bootstrap.js'
 
-import router from "./router";
-import theme from "./theme";
+import RouterProvider from './router'
+import { AuthProvider } from 'hooks'
+import ThemeProvider from './theme'
 
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import "react-toastify/dist/ReactToastify.css";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <MUIThemeProvider theme={theme}>
-    <CssBaseline />
-
-    <RouterProvider router={router} />
-  </MUIThemeProvider>
-);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <ThemeProvider>
+    <AuthProvider>
+      <RouterProvider />
+    </AuthProvider>
+  </ThemeProvider>
+)
